@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Baby</title>
+	<link rel="stylesheet" href="style/reset.min.css">
+	<link rel="stylesheet" href="style/bootstrap.min.css">
+	<link rel="stylesheet" href="style/css.css">
+</head>
+<body>
+	<div id="app" class="container">
+		<div class="row my-5">
+			<div class="col-md-4 mb-5">
+		    <div class="list-group" id="list-tab" role="tablist">
+		    	<a class="list-group-item list-group-item-action" href="#"
+		    		:class="{'active': currentVal=='game'}" @click="changeData_game()">遊戲</a>
+		    	<a class="list-group-item list-group-item-action" href="#"
+		    		:class="{'active': currentVal=='shower'}" @click="changeData_shower()">洗澡</a>
+		    	<a class="list-group-item list-group-item-action" href="#"
+		    		:class="{'active': currentVal=='eat'}" @click="changeData_eat()">吃飯</a>
+		    	<a class="list-group-item list-group-item-action" href="#"
+		    		:class="{'active': currentVal=='hair'}" @click="changeData_hair()">綁頭髮</a>
+		    	<a class="list-group-item list-group-item-action" href="#"
+		    		:class="{'active': currentVal=='dress'}" @click="changeData_dress()">穿衣服</a>
+		    </div>
+		  </div>
+			<div class="col-md-8">
+				<div class="card" v-for="(i, index) in classes">
+			    <div :class="{'card-header': true,}" :id="'heading'+ i.min">
+		        <h5 class="mb-0" data-toggle="collapse" :data-target="'#collapse'+ i.min" aria-expanded="true" :aria-controls="'collapse'+ i.min">
+		          <span v-if="i.max">i.num >= {{i.min}} && i.num < {{i.max}}</span>
+		          <span v-else>i.num >= {{i.min}}</span>
+		        </h5>
+			    </div>
+			    <div :id="'collapse'+ i.min" class="collapse show" :aria-labelledby="'heading'+ i.min">
+		        <div class="card-body" v-if="i.max">
+							<button type="button" class="btn btn-sm mb-3 mr-1" 
+								data-toggle="modal" data-target="#ModalCenter"
+								@click="showModalData(item)"
+								:class="{['btn-' + i.color]: true}" 
+								v-for="item in tempData" v-if="item.num >= i.min && item.num < i.max">
+								{{item.txt}} <span class="badge badge-light">{{item.num}}</span>
+							</button>
+		        </div>
+		        <div class="card-body" v-else>
+							<button type="button" class="btn btn-sm btn-danger mb-3 mr-1" 
+								data-toggle="modal" data-target="#ModalCenter"
+								@click="showModalData(item)"
+								v-for="item in tempData" 
+								v-if="item.num >= i.min">
+								{{item.txt}} <span class="badge badge-light">{{item.num}}</span>
+							</button>
+		        </div>
+			    </div>
+				</div>
+			</div>
+		</div>
+		<!-- Modal -->
+		<div class="modal fade" id="ModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+				<div class="modal-content">
+					<div class="modal-header bg-light align-items-center py-2">
+						<h2 class="modal-title" id="exampleModalLongTitle">{{modalData.title}}</h2>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body d-flex flex-wrap">
+						<div class="card my-2 mx-1" v-for="(i, index) in modalData.content" style="flex-grow:1">
+							<div class="card-body">
+								<h5 class="card-title">{{index}}</h5>
+								<h6 class="card-subtitle mb-2 text-muted">Time: {{i.time}}</h6>
+								<p class="card-text">Data form: {{i.version}}</p>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/cc.js"></script>
+	<script src="js/vue.js"></script>
+	<script src="js/jquery-3.2.1.slim.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/script.js"></script>
+</body>
+</html>
